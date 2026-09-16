@@ -1,0 +1,73 @@
+{
+  "name": "Artist",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Artist or band name"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Short biography"
+    },
+    "genre": {
+      "type": "string",
+      "enum": [
+        "electronic",
+        "edm",
+        "hip_hop",
+        "indie",
+        "experimental",
+        "ambient",
+        "soul",
+        "jazz",
+        "funk_phonk",
+        "rock",
+        "other"
+      ],
+      "description": "Primary genre"
+    },
+    "photo_url": {
+      "type": "string",
+      "description": "Artist photo URL"
+    },
+    "location": {
+      "type": "string",
+      "description": "City or country"
+    },
+    "website": {
+      "type": "string",
+      "description": "Artist website or social link"
+    },
+    "spotify_url": {
+      "type": "string",
+      "description": "Spotify artist link"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this artist is featured on homepage"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
