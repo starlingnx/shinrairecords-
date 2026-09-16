@@ -1,0 +1,167 @@
+{
+  "name": "DemoSubmission",
+  "type": "object",
+  "properties": {
+    "artist_name": {
+      "type": "string",
+      "description": "Submitting artist name"
+    },
+    "composer": {
+      "type": "string",
+      "description": "Composer name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "spotify_url": {
+      "type": "string",
+      "description": "Spotify Artist profile link (if they have one)"
+    },
+    "track_title": {
+      "type": "string",
+      "description": "Title of the submitted track"
+    },
+    "genre": {
+      "type": "string",
+      "enum": [
+        "Alternative",
+        "Anime",
+        "Blues",
+        "Brazilian",
+        "Children's Music",
+        "Classical",
+        "Comedy",
+        "Country",
+        "Dance & Electronic",
+        "Hip-Hop / Rap",
+        "Jazz",
+        "Latin",
+        "Metal",
+        "Pop",
+        "R&B / Soul",
+        "Reggae",
+        "Rock",
+        "Singer-Songwriter",
+        "Soundtrack",
+        "World",
+        "Other"
+      ],
+      "description": "Track genre"
+    },
+    "vocal_type": {
+      "type": "string",
+      "description": "Vocal type of the track"
+    },
+    "explicit_content": {
+      "type": "string",
+      "enum": [
+        "Yes",
+        "No"
+      ],
+      "description": "Whether the track contains explicit lyrics"
+    },
+    "mood": {
+      "type": "string",
+      "description": "Mood / vibe of the track"
+    },
+    "track_length": {
+      "type": "string",
+      "description": "Track length (e.g. 3:45)"
+    },
+    "soundcloud_url": {
+      "type": "string",
+      "description": "Private SoundCloud link"
+    },
+    "dropbox_url": {
+      "type": "string",
+      "description": "Dropbox / Google Drive link"
+    },
+    "artwork_url": {
+      "type": "string",
+      "description": "Uploaded artwork image URL"
+    },
+    "artist_photo_url": {
+      "type": "string",
+      "description": "Uploaded artist photo URL (optional)"
+    },
+    "is_exclusive": {
+      "type": "boolean",
+      "description": "Whether the track is exclusive"
+    },
+    "released_before": {
+      "type": "boolean",
+      "description": "Whether the track has been released before"
+    },
+    "copyright_confirmed": {
+      "type": "boolean",
+      "description": "Copyright ownership confirmation"
+    },
+    "demo_url": {
+      "type": "string",
+      "description": "Legacy demo link field"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message or description of their work"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description of the submission (up to 1000 characters)",
+      "maxLength": 1000
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "reviewing",
+        "accepted",
+        "declined"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "artist_name",
+    "email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
