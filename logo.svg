@@ -1,0 +1,28 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#1a1a2e" stroke="#00d4ff" stroke-width="2"/>
+  
+  <!-- Vinyl record -->
+  <circle cx="100" cy="100" r="70" fill="#0f0f1e" stroke="#00d4ff" stroke-width="1"/>
+  
+  <!-- Record grooves -->
+  <circle cx="100" cy="100" r="60" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.6"/>
+  <circle cx="100" cy="100" r="50" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.6"/>
+  <circle cx="100" cy="100" r="40" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.6"/>
+  
+  <!-- Center label -->
+  <circle cx="100" cy="100" r="25" fill="#00d4ff"/>
+  <circle cx="100" cy="100" r="20" fill="#1a1a2e"/>
+  <circle cx="100" cy="100" r="8" fill="#00d4ff"/>
+  
+  <!-- Sound waves -->
+  <g stroke="#00d4ff" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M 100 25 Q 115 35 115 50"/>
+    <path d="M 100 20 Q 125 35 125 60"/>
+    <path d="M 100 150 Q 115 165 115 180"/>
+    <path d="M 100 185 Q 125 165 125 140"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="100" y="180" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#00d4ff">SHINRAI RECORDS</text>
+</svg>
