@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shinrai Records — Data viewer</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#7c3aed}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#071025, #081025);color:#e6eef8;margin:0;padding:24px}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+    header img{height:56px}
+    h1{font-size:20px;margin:0}
+    .wrap{display:flex;gap:20px}
+    nav{width:260px;background:rgba(255,255,255,0.03);padding:12px;border-radius:8px}
+    nav h2{font-size:13px;color:var(--muted);margin:8px 0}
+    .file{padding:8px;border-radius:6px;cursor:pointer;color:#cfe8ff}
+    .file:hover{background:rgba(255,255,255,0.02)}
+    main{flex:1;background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;min-height:60vh}
+    pre{white-space:pre-wrap;overflow:auto;background:#041025;padding:14px;border-radius:6px;border:1px solid rgba(255,255,255,0.03)}
+    .meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin-bottom:10px}
+    .notice{color:var(--muted);font-size:13px}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    .loading{color:var(--accent)}
+  </style>
+</head>
+<body>
+  <header>
+    <img id="logo" alt="logo" src="https://raw.githubusercontent.com/starlingnx/shinrairecords-/29ef49e704e38e483222aa532f9f5332530d4e2e/logo.svg">
+    <div>
+      <h1>Shinrai Records — Data models viewer</h1>
+      <div class="notice">Hiển thị các file JSONC trong repo — commit: 29ef49e704e38e483222aa532f9f5332530d4e2e</div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav>
+      <h2>Files</h2>
+      <div id="fileList">
+        <!-- files populated by JS -->
+      </div>
+      <h2>Actions</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button id="refresh">Refresh</button>
+        <a href="https://github.com/starlingnx/shinrairecords-/tree/29ef49e704e38e483222aa532f9f5332530d4e2e" target="_blank" rel="noreferrer">Open repo on GitHub</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="meta">
+        <div id="currentFile">Chọn một file để xem</div>
+        <div id="status" style="margin-left:auto"></div>
+      </div>
+      <div id="contentArea">
+        <pre id="content">No file selected</pre>
+      </div>
+      <footer>
+        Rendered client-side. JSONC comments are stripped before parsing when possible.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const base = 'https://raw.githubusercontent.com/starlingnx/shinrairecords-/29ef49e704e38e483222aa532f9f5332530d4e2e/';
+    const files = [
+      'Artist.jsonc','DemoSubmission.jsonc','EmailLog.jsonc','LabelStat.jsonc','NewsPost.jsonc','NewsletterSubscriber.jsonc','Release.jsonc','User.jsonc','config.jsonc','README.md'
+    ];
+
+    const fileList = document.getElementById('fileList');
+    const contentEl = document.getElementById('content');
+    const currentFileEl = document.getElementById('currentFile');
+    const statusEl = document.getElementById('status');
+
+    function stripComments(text){
+      // Remove /* */ and // comments (basic)
+      try{
+        return text.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(?:^|[^:\\])\/\/.*$/gm, '');
+      }catch(e){return text}
+    }
+
+    function prettyJson(text){
+      const cleaned = stripComments(text);
+      try{
+        const obj = JSON.parse(cleaned);
+        return JSON.stringify(obj, null, 2);
+      }catch(e){
+        // not valid JSON after stripping comments — return raw
+        return cleaned.trim();
+      }
+    }
+
+    function setStatus(text, cls){
+      statusEl.textContent = text || '';
+      statusEl.className = cls || '';
+    }
+
+    function makeFileNode(name){
+      const d = document.createElement('div');
+      d.className = 'file';
+      d.textContent = name;
+      d.onclick = () => loadFile(name);
+      return d;
+    }
+
+    async function loadFile(name){
+      currentFileEl.textContent = name;
+      setStatus('Loading...', 'loading');
+      contentEl.textContent = '';
+      try{
+        const res = await fetch(base + encodeURIComponent(name));
+        if(!res.ok) throw new Error(res.status + ' ' + res.statusText);
+        const text = await res.text();
+        if(name.endsWith('.jsonc')||name.endsWith('.json') ){
+          contentEl.textContent = prettyJson(text);
+        } else if(name.endsWith('.md')){
+          contentEl.textContent = text;
+        } else {
+          contentEl.textContent = text;
+        }
+        setStatus('Loaded', '');
+      }catch(err){
+        contentEl.textContent = 'Error loading file: ' + err.message;
+        setStatus('Error', '');
+      }
+    }
+
+    function renderList(){
+      fileList.innerHTML = '';
+      for(const f of files){
+        fileList.appendChild(makeFileNode(f));
+      }
+    }
+
+    document.getElementById('refresh').addEventListener('click', ()=>{
+      renderList();
+      setStatus('Refreshed');
+    });
+
+    renderList();
+  </script>
+</body>
+</html>
