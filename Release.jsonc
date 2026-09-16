@@ -1,0 +1,93 @@
+{
+  "name": "Release",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Release title"
+    },
+    "artist_id": {
+      "type": "string",
+      "description": "ID of the artist"
+    },
+    "artist_name": {
+      "type": "string",
+      "description": "Artist name for display"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "single",
+        "ep",
+        "album",
+        "compilation"
+      ],
+      "description": "Release type"
+    },
+    "release_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Release date"
+    },
+    "cover_url": {
+      "type": "string",
+      "description": "Cover art URL"
+    },
+    "description": {
+      "type": "string",
+      "description": "Release description or notes"
+    },
+    "streaming_url": {
+      "type": "string",
+      "description": "Link to streaming platform"
+    },
+    "spotify_url": {
+      "type": "string",
+      "description": "Spotify link"
+    },
+    "youtube_url": {
+      "type": "string",
+      "description": "YouTube link"
+    },
+    "apple_music_url": {
+      "type": "string",
+      "description": "Apple Music link"
+    },
+    "genre": {
+      "type": "string",
+      "enum": [
+        "electronic",
+        "hip_hop",
+        "indie",
+        "experimental",
+        "ambient",
+        "soul",
+        "jazz",
+        "rock",
+        "other"
+      ]
+    }
+  },
+  "required": [
+    "title",
+    "artist_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
