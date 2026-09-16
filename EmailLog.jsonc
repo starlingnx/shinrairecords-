@@ -1,0 +1,45 @@
+{
+  "name": "EmailLog",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "ID of the authenticated user who triggered the email"
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Recipient email address"
+    },
+    "email_type": {
+      "type": "string",
+      "description": "Type of email event (e.g. demo_submission)"
+    }
+  },
+  "required": [
+    "user_id",
+    "recipient",
+    "email_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
