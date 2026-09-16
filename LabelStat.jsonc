@@ -1,0 +1,49 @@
+{
+  "name": "LabelStat",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number",
+      "description": "The numeric value of the stat (e.g. 10)"
+    },
+    "suffix": {
+      "type": "string",
+      "description": "Text appended after the number (e.g. + or M+ Streams)"
+    },
+    "label": {
+      "type": "string",
+      "description": "Label shown below the number (e.g. Artists)"
+    },
+    "sort_order": {
+      "type": "number",
+      "description": "Display order (lower = first)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description of the stat (up to 1000 characters)",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "value",
+    "label"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
