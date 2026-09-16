@@ -3,139 +3,91 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Shinrai Records — Data viewer</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#7c3aed}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#071025, #081025);color:#e6eef8;margin:0;padding:24px}
-    header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
-    header img{height:56px}
-    h1{font-size:20px;margin:0}
-    .wrap{display:flex;gap:20px}
-    nav{width:260px;background:rgba(255,255,255,0.03);padding:12px;border-radius:8px}
-    nav h2{font-size:13px;color:var(--muted);margin:8px 0}
-    .file{padding:8px;border-radius:6px;cursor:pointer;color:#cfe8ff}
-    .file:hover{background:rgba(255,255,255,0.02)}
-    main{flex:1;background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;min-height:60vh}
-    pre{white-space:pre-wrap;overflow:auto;background:#041025;padding:14px;border-radius:6px;border:1px solid rgba(255,255,255,0.03)}
-    .meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin-bottom:10px}
-    .notice{color:var(--muted);font-size:13px}
-    footer{margin-top:18px;color:var(--muted);font-size:13px}
-    .loading{color:var(--accent)}
-  </style>
+  <title>Shinrai Records — Where data meets music</title>
+  <meta name="description" content="Shinrai Records Music Group - Where data meets music. Built for artists, producers, and industry leaders.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/logo.svg">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <img id="logo" alt="logo" src="https://raw.githubusercontent.com/starlingnx/shinrairecords-/29ef49e704e38e483222aa532f9f5332530d4e2e/logo.svg">
-    <div>
-      <h1>Shinrai Records — Data models viewer</h1>
-      <div class="notice">Hiển thị các file JSONC trong repo — commit: 29ef49e704e38e483222aa532f9f5332530d4e2e</div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home">
+        <img src="logo.svg" alt="Shinrai Records" class="logo">
+        <span class="brand-text">Shinrai Records</span>
+      </a>
+      <nav class="main-nav">
+        <a href="#artists">Artists</a>
+        <a href="#releases">Releases</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button id="mobileToggle" class="mobile-toggle" aria-label="Open navigation">☰</button>
     </div>
   </header>
 
-  <div class="wrap">
-    <nav>
-      <h2>Files</h2>
-      <div id="fileList">
-        <!-- files populated by JS -->
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <h1>Where data meets music</h1>
+        <p class="lead">Shinrai Records — platform for artists, producers, and industry leaders. Dữ liệu trong repo được dùng để hiển thị Artist, Releases, News và nhiều hơn nữa.</p>
+        <div class="cta">
+          <a class="btn" href="#artists">Browse Artists</a>
+          <a class="btn ghost" href="#releases">Latest Releases</a>
+        </div>
       </div>
-      <h2>Actions</h2>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button id="refresh">Refresh</button>
-        <a href="https://github.com/starlingnx/shinrairecords-/tree/29ef49e704e38e483222aa532f9f5332530d4e2e" target="_blank" rel="noreferrer">Open repo on GitHub</a>
+    </section>
+
+    <section id="artists" class="section">
+      <div class="container">
+        <h2>Artists</h2>
+        <p class="muted">Danh sách artists lấy từ Artist.jsonc</p>
+        <div id="artistsGrid" class="grid"></div>
       </div>
-    </nav>
+    </section>
 
-    <main>
-      <div class="meta">
-        <div id="currentFile">Chọn một file để xem</div>
-        <div id="status" style="margin-left:auto"></div>
+    <section id="releases" class="section alt">
+      <div class="container">
+        <h2>Releases</h2>
+        <p class="muted">Các phát hành gần đây (Release.jsonc)</p>
+        <div id="releasesList" class="list"></div>
       </div>
-      <div id="contentArea">
-        <pre id="content">No file selected</pre>
+    </section>
+
+    <section id="news" class="section">
+      <div class="container">
+        <h2>News & Posts</h2>
+        <p class="muted">Tin tức từ NewsPost.jsonc</p>
+        <div id="newsList" class="list"></div>
       </div>
-      <footer>
-        Rendered client-side. JSONC comments are stripped before parsing when possible.
-      </footer>
-    </main>
-  </div>
+    </section>
 
-  <script>
-    const base = 'https://raw.githubusercontent.com/starlingnx/shinrairecords-/29ef49e704e38e483222aa532f9f5332530d4e2e/';
-    const files = [
-      'Artist.jsonc','DemoSubmission.jsonc','EmailLog.jsonc','LabelStat.jsonc','NewsPost.jsonc','NewsletterSubscriber.jsonc','Release.jsonc','User.jsonc','config.jsonc','README.md'
-    ];
+    <section id="contact" class="section alt">
+      <div class="container">
+        <h2>Contact</h2>
+        <p class="muted">Liên hệ / Subscribe (demo) — không có backend trong phiên bản tĩnh</p>
+        <form id="contactForm" class="contact-form">
+          <input id="name" placeholder="Your name" />
+          <input id="email" type="email" placeholder="Email" />
+          <textarea id="message" placeholder="Message (demo)"></textarea>
+          <div class="form-actions">
+            <button type="submit" class="btn">Send (demo)</button>
+            <button type="button" id="subscribe" class="btn ghost">Subscribe (demo)</button>
+          </div>
+          <div id="formResult" class="muted small"></div>
+        </form>
+      </div>
+    </section>
 
-    const fileList = document.getElementById('fileList');
-    const contentEl = document.getElementById('content');
-    const currentFileEl = document.getElementById('currentFile');
-    const statusEl = document.getElementById('status');
+  </main>
 
-    function stripComments(text){
-      // Remove /* */ and // comments (basic)
-      try{
-        return text.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(?:^|[^:\\])\/\/.*$/gm, '');
-      }catch(e){return text}
-    }
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© Shinrai Records — Data-driven music group</div>
+      <div class="muted">Repo: <a href="https://github.com/starlingnx/shinrairecords-" target="_blank">starlingnx/shinrairecords-</a></div>
+    </div>
+  </footer>
 
-    function prettyJson(text){
-      const cleaned = stripComments(text);
-      try{
-        const obj = JSON.parse(cleaned);
-        return JSON.stringify(obj, null, 2);
-      }catch(e){
-        // not valid JSON after stripping comments — return raw
-        return cleaned.trim();
-      }
-    }
-
-    function setStatus(text, cls){
-      statusEl.textContent = text || '';
-      statusEl.className = cls || '';
-    }
-
-    function makeFileNode(name){
-      const d = document.createElement('div');
-      d.className = 'file';
-      d.textContent = name;
-      d.onclick = () => loadFile(name);
-      return d;
-    }
-
-    async function loadFile(name){
-      currentFileEl.textContent = name;
-      setStatus('Loading...', 'loading');
-      contentEl.textContent = '';
-      try{
-        const res = await fetch(base + encodeURIComponent(name));
-        if(!res.ok) throw new Error(res.status + ' ' + res.statusText);
-        const text = await res.text();
-        if(name.endsWith('.jsonc')||name.endsWith('.json') ){
-          contentEl.textContent = prettyJson(text);
-        } else if(name.endsWith('.md')){
-          contentEl.textContent = text;
-        } else {
-          contentEl.textContent = text;
-        }
-        setStatus('Loaded', '');
-      }catch(err){
-        contentEl.textContent = 'Error loading file: ' + err.message;
-        setStatus('Error', '');
-      }
-    }
-
-    function renderList(){
-      fileList.innerHTML = '';
-      for(const f of files){
-        fileList.appendChild(makeFileNode(f));
-      }
-    }
-
-    document.getElementById('refresh').addEventListener('click', ()=>{
-      renderList();
-      setStatus('Refreshed');
-    });
-
-    renderList();
-  </script>
+  <script src="app.js" defer></script>
 </body>
 </html>
